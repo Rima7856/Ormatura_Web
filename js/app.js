@@ -70,24 +70,30 @@ class OrmaturaApp {
 
                             <!-- Register Fields (hidden by default) -->
                             <div id="register-fields" class="hidden">
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя пользователя</label>
-                                    <input type="text" name="reg_username"
-                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                        placeholder="Придумайте имя пользователя">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Пароль</label>
-                                    <input type="password" name="reg_password"
-                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                        placeholder="Придумайте пароль">
-                                </div>
-                                <div class="mb-4">
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Номер телефона</label>
-                                    <input type="tel" name="phone_number"
-                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                                        placeholder="+7 (900) 000-00-00">
-                                </div>
+<!--                                <div class="mb-4">-->
+<!--                                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя пользователя</label>-->
+<!--                                    <input type="text" name="reg_username"-->
+<!--                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"-->
+<!--                                        placeholder="Придумайте имя пользователя">-->
+<!--                                </div>-->
+<!--                                <div class="mb-4">-->
+<!--                                    <label class="block text-sm font-medium text-gray-700 mb-1">Пароль</label>-->
+<!--                                    <input type="password" name="reg_password"-->
+<!--                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"-->
+<!--                                        placeholder="Придумайте пароль">-->
+<!--                                </div>-->
+<!--                                <div class="mb-4">-->
+<!--                                    <label class="block text-sm font-medium text-gray-700 mb-1">Номер телефона</label>-->
+<!--                                    <input type="tel" name="phone_number"-->
+<!--                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"-->
+<!--                                        placeholder="+7 (900) 000-00-00">-->
+                                 <div class="mb-4">-->
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Через TG-бота https://t.me/OrmaturaBot</label>-->
+                                 </div>-->
+                                    
+                                    
+                                    
+                                    
                             </div>
 
                             <button type="submit" id="auth-submit-btn"
