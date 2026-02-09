@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ormatura Messenger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgb(154, 92, 55)',
+                        'primary-dark': 'rgb(124, 74, 44)',
+                        'primary-light': 'rgb(184, 122, 85)',
+                        secondary: 'rgb(238, 219, 189)',
+                        'secondary-dark': 'rgb(218, 199, 169)',
+                        'secondary-light': 'rgb(248, 235, 215)',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgb(154, 92, 55) rgb(238, 219, 189);
+        }
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        *::-webkit-scrollbar-track {
+            background: rgb(238, 219, 189);
+        }
+        *::-webkit-scrollbar-thumb {
+            background: rgb(154, 92, 55);
+            border-radius: 4px;
+        }
+        *::-webkit-scrollbar-thumb:hover {
+            background: rgb(124, 74, 44);
+        }
+        .message-bubble {
+            animation: messageSlide 0.2s ease-out;
+        }
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .chat-item {
+            transition: all 0.15s ease;
+        }
+        .chat-item:hover {
+            background: rgb(248, 235, 215);
+        }
+        .chat-item.active {
+            background: rgb(238, 219, 189);
+            border-right: 3px solid rgb(154, 92, 55);
+        }
+        .typing-indicator span {
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-4px); }
+        }
+    </style>
+</head>
+<body class="bg-secondary-light h-screen overflow-hidden">
+    <div id="app"></div>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/chats.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/app.js"></script>
+<script src="https://deepsite.hf.co/deepsite-badge.js"></script>
+</body>
+</html>
