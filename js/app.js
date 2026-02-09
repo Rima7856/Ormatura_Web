@@ -112,66 +112,93 @@ class OrmaturaApp {
     }
 
     switchAuthTab(tab) {
-        const loginTab = document.getElementById('tab-login');
-        const registerTab = document.getElementById('tab-register');
-        const loginFields = document.getElementById('login-fields');
-        const registerFields = document.getElementById('register-fields');
-        const submitBtn = document.getElementById('auth-submit-btn');
+    const loginTab = document.getElementById('tab-login');
+    const registerTab = document.getElementById('tab-register');
+    const loginFields = document.getElementById('login-fields');
+    const registerFields = document.getElementById('register-fields');
+    const submitBtn = document.getElementById('auth-submit-btn');
+    const form = document.getElementById('auth-form');
+    const errorEl = document.getElementById('auth-error');
 
-        if (tab === 'login') {
-            loginTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all bg-white text-primary shadow-sm';
-            registerTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all text-primary/70 hover:text-primary';
-            loginFields.classList.remove('hidden');
-            registerFields.classList.add('hidden');
-            submitBtn.innerHTML = '<span>Войти</span><i data-lucide="arrow-right" class="w-4 h-4"></i>';
-        } else {
-            registerTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all bg-white text-primary shadow-sm';
-            loginTab.className = 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all text-primary/70 hover:text-primary';
-            registerFields.classList.remove('hidden');
-            loginFields.classList.add('hidden');
-            submitBtn.innerHTML = '<span>Создать аккаунт</span><i data-lucide="user-plus" class="w-4 h-4"></i>';
-        }
-        
-        document.getElementById('auth-form').dataset.mode = tab;
-        document.getElementById('auth-error').classList.add('hidden');
-        lucide.createIcons();
+    if (tab === 'login') {
+        loginTab.className =
+            'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all bg-white text-primary shadow-sm';
+        registerTab.className =
+            'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all text-primary/70 hover:text-primary';
+
+        loginFields.classList.remove('hidden');
+        registerFields.classList.add('hidden');
+
+        submitBtn.type = 'submit';
+        submitBtn.onclick = null;
+        submitBtn.innerHTML = `
+            <span>Войти</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        `;
+    } else {
+        registerTab.className =
+            'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all bg-white text-primary shadow-sm';
+        loginTab.className =
+            'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all text-primary/70 hover:text-primary';
+
+        registerFields.classList.remove('hidden');
+        loginFields.classList.add('hidden');
+
+        submitBtn.type = 'button';
+        submitBtn.innerHTML = `
+            <span>Перейти в Telegram</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+        `;
+        submitBtn.onclick = () => {
+            window.open('https://t.me/OrmaturaBot', '_blank', 'noopener,noreferrer');
+        };
     }
+
+    form.dataset.mode = tab;
+    errorEl.classList.add('hidden');
+    lucide.createIcons();
+    }
+
 
     async handleAuthSubmit(e) {
         e.preventDefault();
+
         const mode = e.target.dataset.mode || 'login';
+        if (mode !== 'login') return; // ⛔ защита
+
         const errorEl = document.getElementById('auth-error');
         const submitBtn = document.getElementById('auth-submit-btn');
 
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span class="animate-spin"><i data-lucide="loader-2" class="w-5 h-5"></i></span>';
+        submitBtn.innerHTML = `
+            <span class="animate-spin">
+                <i data-lucide="loader-2" class="w-5 h-5"></i>
+            </span>
+        `;
         lucide.createIcons();
 
         try {
-            if (mode === 'login') {
-                const username = e.target.username.value;
-                const password = e.target.password.value;
-                await authAPI.login(username, password);
-            } else {
-                const username = e.target.reg_username.value;
-                const password = e.target.reg_password.value;
-                const phone = e.target.phone_number.value;
-                await authAPI.register(username, password, phone);
-            }
+            const username = e.target.username.value;
+            const password = e.target.password.value;
+
+            await authAPI.login(username, password);
 
             this.currentUser = authAPI.getCurrentUser();
             this.showMessenger();
         } catch (error) {
-            errorEl.textContent = error.data?.detail || error.message || 'Ошибка авторизации';
+            errorEl.textContent =
+                error.data?.detail || error.message || 'Ошибка авторизации';
             errorEl.classList.remove('hidden');
         } finally {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = mode === 'login' 
-                ? '<span>Войти</span><i data-lucide="arrow-right" class="w-4 h-4"></i>'
-                : '<span>Создать аккаунт</span><i data-lucide="user-plus" class="w-4 h-4"></i>';
+            submitBtn.innerHTML = `
+                <span>Войти</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            `;
             lucide.createIcons();
         }
     }
+
 
     // ==================== MESSENGER VIEWS ====================
 
