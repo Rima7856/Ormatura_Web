@@ -87,9 +87,9 @@ class OrmaturaApp {
 <!--                                    <input type="tel" name="phone_number"-->
 <!--                                        class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"-->
 <!--                                        placeholder="+7 (900) 000-00-00">-->
-                                 <div class="mb-4">-->
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Через TG-бота https://t.me/OrmaturaBot</label>-->
-                                 </div>-->
+                                 <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Через TG-бота https://t.me/OrmaturaBot</label>
+                                 </div>
                                     
                                     
                                     
