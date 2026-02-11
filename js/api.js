@@ -1,5 +1,4 @@
-const API_BASE_URL = 'https://api.ormatura.ru';}
-
+const API_BASE_URL = 'https://api.ormatura.ru/';
 
 class ApiClient {
     constructor() {
