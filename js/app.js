@@ -350,14 +350,14 @@ class OrmaturaApp {
                     <div class="message-bubble max-w-[70%] ${isMe 
                         ? 'bg-primary text-white rounded-2xl rounded-tr-md' 
                         : 'bg-white text-gray-900 rounded-2xl rounded-tl-md border border-gray-100'} px-4 py-2.5 shadow-sm">
-                        ${!isMe ? `<p class="text-xs font-medium text-primary mb-1">${senderName}</p>` : ''}
+
                         <p class="text-sm leading-relaxed">${this.escapeHtml(msg.content)}</p>
                         <p class="text-xs ${isMe ? 'text-white/70' : 'text-gray-400'} mt-1 text-right">
                             ${this.formatTime(msg.timestamp)}
                         </p>
                     </div>
                 </div>
-            `;
+            `;//${!isMe ? `<p class="text-xs font-medium text-primary mb-1">${senderName}</p>` : ''}
         }).join('');
     }
 
@@ -856,7 +856,7 @@ class OrmaturaApp {
         }
         
         if (lastSeen) {
-            return `<p class="text-xs text-gray-500">был(а) ${this.formatTime(lastSeen)}</p>`;
+            return `<p class="text-xs text-gray-500">был(а) в ${this.formatTime(lastSeen)}</p>`;
         }
         
         return `<p class="text-xs text-gray-500">не в сети</p>`;
