@@ -856,7 +856,7 @@ class OrmaturaApp {
         }
         
         if (lastSeen) {
-            return `<p class="text-xs text-gray-500">был(а) в ${this.formatTime(lastSeen)}</p>`;
+            return `<p class="text-xs text-gray-500">был(а) ${this.formatTime(lastSeen)}</p>`;
         }
         
         return `<p class="text-xs text-gray-500">не в сети</p>`;
