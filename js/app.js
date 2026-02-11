@@ -488,19 +488,23 @@ class OrmaturaApp {
     }
 
     async openChat(userId, username) {
-        this.activeChat = { user_id: userId, username };
-        
-        // Update active state in sidebar
+        const chat = this.chats.find(c => c.user_id === userId);
+
+        this.activeChat = {
+            user_id: userId,
+            username: username,
+            last_seen: chat?.last_seen || null
+        };
+
         this.renderChatsList();
-        
-        // Show mobile chat area
+
         document.getElementById('chat-area').classList.remove('hidden');
         document.getElementById('chat-area').classList.add('flex');
-        
-        // Load messages
+
         this.messages = await messagesAPI.getConversation(userId);
         this.renderChatArea();
     }
+
 
     closeChat() {
         this.activeChat = null;
@@ -801,27 +805,28 @@ class OrmaturaApp {
         const date = new Date(timestamp);
         const now = new Date();
         const isToday = date.toDateString() === now.toDateString();
-        
+
         if (isToday) {
             return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
         }
-        
+
         const yesterday = new Date(now);
         yesterday.setDate(yesterday.getDate() - 1);
         if (date.toDateString() === yesterday.toDateString()) {
             return 'Вчера';
         }
-        
+
         return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
     }
 
     // Проверяет, онлайн ли пользователь (был активен в последние 5 минут)
-    isOnline(lastSeen) {
+    isOnline(lastSeen, timeoutSeconds = 120) {
         if (!lastSeen) return false;
-        const lastSeenDate = new Date(lastSeen);
-        const now = new Date();
-        const diffMinutes = (now - lastSeenDate) / (1000 * 60);
-        return diffMinutes < 5;
+
+        const last = Date.parse(lastSeen);
+        if (Number.isNaN(last)) return false;
+
+        return (Date.now() - last) < timeoutSeconds * 1000;
     }
 
     // Рендерит статус для sidebar (текущий пользователь)
