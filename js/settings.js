@@ -17,7 +17,7 @@ const settingsAPI = {
         return await api.request('/settings/me/password', {
             method: 'PATCH',
             body: { 
-                current_password: currentPassword,
+                old_password: currentPassword,
                 new_password: newPassword 
             },
         });

@@ -589,7 +589,7 @@ class OrmaturaApp {
                     <div class="p-6 border-b border-gray-100">
                         <h4 class="font-medium text-gray-900 mb-3">Сменить пароль</h4>
                         <form onsubmit="app.updatePassword(event)" class="space-y-3">
-                            <input type="password" name="current_password" required placeholder="Текущий пароль"
+                            <input type="password" name="old_password" required placeholder="Текущий пароль"
                                 class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none">
                             <input type="password" name="new_password" required placeholder="Новый пароль"
                                 class="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary outline-none">
@@ -636,7 +636,7 @@ class OrmaturaApp {
         e.preventDefault();
         try {
             await settingsAPI.updatePassword(
-                e.target.current_password.value,
+                e.target.old_password.value,
                 e.target.new_password.value
             );
             document.getElementById('settings-modal').remove();
