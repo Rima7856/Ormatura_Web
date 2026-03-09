@@ -883,6 +883,10 @@ class OrmaturaApp {
 
     logout() {
         this.stopPolling();
+
+        const modal = document.getElementById('settings-modal');
+        if (modal) modal.remove();   // закрываем окно настроек
+
         authAPI.logout();
     }
 }
