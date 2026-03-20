@@ -691,40 +691,58 @@ class OrmaturaApp {
     }
 
     async searchUsers(query) {
+        const container = document.getElementById('user-search-results');
+
+        query = query.trim();
+
         if (!query || query.length < 2) {
-            document.getElementById('user-search-results').innerHTML = '';
+            container.innerHTML = '';
             return;
         }
-        
-        // Ищем в уже загруженных чатах и добавляем кастомный поиск
+
         try {
-            // Пока используем простой поиск — можно расширить API
-            const results = this.chats.filter(c => 
-                c.username?.toLowerCase().includes(query.toLowerCase())
-            );
-            
-            const container = document.getElementById('user-search-results');
-            
-            // Если ничего не найдено locally, показываем возможность начать чат с username напрямую
-            if (results.length === 0 && query.length >= 3) {
+            const response = await fetch(`${API_BASE_URL}/users/info/username?username=${encodeURIComponent(query)}`);
+            const data = await response.json();
+
+            console.log('SEARCH RESPONSE:', data);
+
+            if (!response.ok) {
                 container.innerHTML = `
-                    <div onclick="app.selectUser('${query}', '${query}')" 
-                        class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-gray-200">
-                        <p class="text-sm font-medium text-primary">Начать чат с "${query}"</p>
-                        <p class="text-xs text-gray-500">Username будет использован напрямую</p>
+                    <div class="p-3 text-sm text-gray-500">
+                        Пользователь не найден
                     </div>
                 `;
-            } else {
-                container.innerHTML = results.map(u => `
-                    <div onclick="app.selectUser('${u.user_id}', '${u.username}')" 
-                        class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-gray-200">
-                        <p class="font-medium text-gray-900">${u.username}</p>
-                        <p class="text-xs text-gray-500">ID: ${u.user_id.slice(0, 8)}...</p>
-                    </div>
-                `).join('');
+                return;
             }
+
+            // 👉 ВАЖНО: правильная структура
+            const user = data.user;
+
+            if (!user) {
+                container.innerHTML = `
+                    <div class="p-3 text-sm text-gray-500">
+                        Пользователь не найден
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div onclick="app.selectUser('${user.id}', '${user.username}')"
+                    class="p-3 hover:bg-gray-50 rounded-lg cursor-pointer border border-gray-200">
+                    <p class="font-medium text-gray-900">${user.username}</p>
+                    <p class="text-xs text-gray-500">ID: ${user.id.slice(0, 8)}...</p>
+                </div>
+            `;
         } catch (error) {
             console.error('Search error:', error);
+            alert(error.message);
+
+            container.innerHTML = `
+                <div class="p-3 text-sm text-red-500">
+                    Ошибка поиска
+                </div>
+            `;
         }
     }
 
@@ -733,40 +751,40 @@ class OrmaturaApp {
         document.getElementById('selected-username').textContent = username;
         document.getElementById('selected-user-info').classList.remove('hidden');
         document.getElementById('start-chat-btn').disabled = false;
+
         document.getElementById('user-search-results').innerHTML = '';
-        document.querySelector('input[name="username"]').value = username;
+
+        const input = document.querySelector('input[name="username"]');
+        if (input) input.value = username;
     }
 
     async startNewChat(e) {
         e.preventDefault();
+
         const userId = document.getElementById('selected-user-id').value;
         const username = document.getElementById('selected-username').textContent;
-        
+
         if (!userId) {
             this.showToast('Выберите пользователя', 'error');
             return;
         }
-        
+
         document.getElementById('new-chat-modal').remove();
-        
+
         try {
-            // Пытаемся загрузить сообщения — это проверит существование пользователя
             const messages = await messagesAPI.getConversation(userId);
-            this.activeChat = { user_id: userId, username: username };
+
+            this.activeChat = { user_id: userId, username };
             this.messages = messages;
-            this.renderChatArea();
-            this.loadChats(); // refresh sidebar
+
         } catch (error) {
-            // Если пользователь не найден, создаём чат без сообщений
-            if (error.status === 404 || error.message.includes('404')) {
-                this.activeChat = { user_id: userId, username: username };
-                this.messages = [];
-                this.renderChatArea();
-                this.showToast('Чат создан. Отправьте первое сообщение!', 'success');
-            } else {
-                this.showToast('Ошибка: ' + (error.message || 'Не удалось создать чат'), 'error');
-            }
+            // если нет переписки — это НЕ ошибка
+            this.activeChat = { user_id: userId, username };
+            this.messages = [];
         }
+
+        this.renderChatArea();
+        this.loadChats();
     }
 
     // ==================== UTILS ====================
