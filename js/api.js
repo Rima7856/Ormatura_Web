@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://ormatura_server:8000';
+const API_BASE_URL = 'http://ormatura_server';
 
 class ApiClient {
     constructor() {
