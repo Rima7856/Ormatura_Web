@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://ormatura_server';
+const API_BASE_URL = 'https://api.ormatura.ru';
 
 class ApiClient {
     constructor() {
@@ -15,7 +15,7 @@ class ApiClient {
     async request(endpoint, options = {}) {
         const url = `${API_BASE_URL}${endpoint}`;
         console.log(`API Request: ${options.method || 'GET'} ${url}`);
-        
+
         const config = {
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ class ApiClient {
         try {
             const response = await fetch(url, config);
             console.log(`API Response: ${response.status}`);
-            
+
             if (response.status === 401) {
                 console.error('Unauthorized - clearing token');
                 this.handleUnauthorized();
